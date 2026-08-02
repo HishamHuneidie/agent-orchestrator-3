@@ -1,0 +1,51 @@
+.
+├── AGENTS.md
+├── CLAUDE.md
+├── Makefile
+├── compose.yaml
+├── docs
+│   ├── // Archivos que documentan la parte funcional y tecnica de la aplicacion
+│   ├── // More files
+│   └── // More files
+├── features
+│   └── F01-first-feature-name
+│       ├── README.md
+│       ├── P01-infra
+│       │   ├── T01-other-task.md
+│       │   ├── T02-other-task.md
+│       │   ├── T03-other-task.md
+│       │   └── T04-other-task.md
+│       ├── P02-dashboard-section
+│       │   ├── T01-other-task.md
+│       │   ├── T02-other-task.md
+│       │   ├── T03-other-task.md
+│       │   ├── T04-other-task.md
+│       │   ├── T05-other-task.md
+│       │   └── T06-other-task.md
+│       ├── P03-endpoints-and-controllers
+│       │   ├── T01-other-task.md
+│       │   ├── T02-other-task.md
+│       │   ├── T03-other-task.md
+│       │   └── T04-other-task.md
+│       └── P04-contact-section
+│           ├── T01-other-task.md
+│           ├── T02-other-task.md
+│           ├── T03-other-task.md
+│           └── T04-other-task.md
+├── orchestrator
+│   └── // Archivos del orquestador
+├── repositories
+│   ├── repo-name-1
+│   │   ├── .docker
+│   │   │   └── // Archivos y carpetas para este repo
+│   │   ├── // Archivos del repo 1
+│   │   ├── // Mas archivos
+│   │   └── // Mas archivos
+│   └── repo-name-2
+│       ├── .docker
+│       │   └── // Archivos y carpetas para este repo
+│       ├── // Archivos del repo 2
+│       ├── // Mas archivos
+│       └── // Mas archivos
+└── scripts
+    └── // Script necesarios para ejecuciones sh o bash
