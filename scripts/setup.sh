@@ -12,7 +12,7 @@ echo "Validando estructura del orquestador..."
 "${ROOT_DIR}/orchestrator/scripts/validate-structure.sh"
 
 echo "Preparando carpetas..."
-rm "${ROOT_DIR}/.git"
+rm -rf "${ROOT_DIR}/.git"
 rm "${ROOT_DIR}/README.md"
 mkdir docs features repositories
 git init
