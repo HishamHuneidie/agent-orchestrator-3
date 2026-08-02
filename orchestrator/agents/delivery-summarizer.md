@@ -48,7 +48,7 @@ Redacta el resumen final de entrega de una feature o fase, consolidando brief, p
 
 - **Puede leer**: `briefs/**`, `features/**`, `reports/**`.
 - **Puede modificar**: `reports/**`.
-- **Prohibido**: `.git/**`, `.codex/**`, `.claude/**`, código de producto.
+- **Prohibido**: `.git/**`, código de producto.
 
 ## Modelo de IA recomendado
 

@@ -96,6 +96,11 @@ security:
   # DEL MONOREPO (padre de orchestrator/), no a orchestrator/ en sí, porque los
   # agentes operan sobre el monorepo completo: features/ y repositories/ viven
   # como hermanos de orchestrator/.
+  #
+  # git commit / git push: ningún agente puede ejecutarlos, en ningún repo
+  # bajo repositories/ ni en el monorepo. Es obligación manual exclusiva del
+  # usuario humano decidir qué se commitea y cuándo se publica al remoto. Ver
+  # tool_selection.default_denied -> git_commit_operations.
   classification_levels:
     - public
     - internal
@@ -138,16 +143,12 @@ security:
     - repositories/    # código de la aplicación
   forbidden_roots:
     - .git/
-    - .codex/
-    - .claude/
   forbidden_path_segments:
-    # Coincide con .git/, .codex/ o .claude/ a cualquier profundidad (p. ej.
-    # dentro de repositories/<repo-name>/.git/ si ese repo es su propio
-    # repositorio git). .codex/ y .claude/ son directorios de tooling de los
-    # clientes de IA soportados, no código ni datos de la aplicación.
+    # Coincide con .git/ a cualquier profundidad (p. ej. dentro de
+    # repositories/<repo-name>/.git/ si ese repo es su propio repositorio
+    # git). .codex/ y .claude/ (directorios de tooling de los clientes de IA)
+    # ya no están prohibidos: son escribibles.
     - ".git"
-    - ".codex"
-    - ".claude"
   readonly_within_writable_roots:
     - "features/*/README.md"  # autoría humana; ningún agente lo escribe ni sobrescribe
   on_violation: fail_closed
@@ -197,6 +198,7 @@ tool_selection:
   default_denied:
     - destructive_git_operations
     - network_exfiltration_tools
+    - git_commit_operations   # git commit/push: obligación manual exclusiva del usuario, ningún agente lo ejecuta
 
 prompt_builder:
   template: templates/prompt.md
@@ -313,7 +315,7 @@ agent_permissions:
     can_read: ["**"]
     can_write: []
     restricted: ["orchestrator/orchestrator.yaml", "orchestrator/schemas/**"]
-    forbidden: [".git/**", ".codex/**", "**/.git/**", "**/.codex/**"]
+    forbidden: [".git/**", "**/.git/**"]
   overrides:
     orchestrator:
       can_write: ["orchestrator/runtime/state/**", "orchestrator/observability/**"]

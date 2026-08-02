@@ -33,16 +33,15 @@ SECURITY_DENIED_CONTENT_PATTERNS=(
   '(?i)password[[:space:]]*=[[:space:]]*.{8,}'
 )
 
-# path_is_forbidden <relative_path> -> 0 si contiene un componente .git, .codex
-# o .claude a CUALQUIER profundidad (p. ej. repositories/<repo-name>/.git/...
-# si ese repo es su propio repositorio git, no solo en la raíz del monorepo).
-# .codex/ y .claude/ son directorios de tooling de los clientes de IA
-# soportados (Codex y Claude Code respectivamente): metadatos/config de la
-# herramienta, no código ni datos de la aplicación.
+# path_is_forbidden <relative_path> -> 0 si contiene un componente .git a
+# CUALQUIER profundidad (p. ej. repositories/<repo-name>/.git/... si ese repo
+# es su propio repositorio git, no solo en la raíz del monorepo).
+# .codex/ y .claude/ (directorios de tooling de los clientes de IA) ya no
+# están prohibidos: los agentes pueden leer y escribir en ellos.
 path_is_forbidden() {
   local path="$1"
   case "/${path}/" in
-    */.git/*|*/.codex/*|*/.claude/*) return 0 ;;
+    */.git/*) return 0 ;;
   esac
   return 1
 }
@@ -71,7 +70,7 @@ scan_file_for_secrets() {
   [[ $found_secret -eq 0 ]] && return 1 || return 0
 }
 
-# scan_tree_for_secrets <dir> -> escanea recursivamente, respetando .git/.codex
+# scan_tree_for_secrets <dir> -> escanea recursivamente, respetando .git
 # Devuelve 0 si todo el árbol está limpio, 1 si se encontró al menos un secreto.
 scan_tree_for_secrets() {
   local dir="$1" any_found=0
@@ -82,6 +81,6 @@ scan_tree_for_secrets() {
       log_warn "Posible secreto detectado en: $rel"
       any_found=1
     fi
-  done < <(find "$dir" \( -type d \( -name .git -o -name .codex -o -name .claude \) \) -prune -o -type f -print0)
+  done < <(find "$dir" -type d -name .git -prune -o -type f -print0)
   return $any_found
 }

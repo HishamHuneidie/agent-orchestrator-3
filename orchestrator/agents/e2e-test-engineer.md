@@ -50,7 +50,7 @@ Escribe y ejecuta pruebas end-to-end de los flujos críticos de usuario afectado
 
 - **Puede leer**: todo el repositorio.
 - **Puede modificar**: `**/*.e2e.*`, `reports/**`.
-- **Prohibido**: `.git/**`, `.codex/**`, `.claude/**`.
+- **Prohibido**: `.git/**`.
 
 ## Modelo de IA recomendado
 

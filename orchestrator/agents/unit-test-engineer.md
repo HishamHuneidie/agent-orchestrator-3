@@ -50,7 +50,7 @@ Escribe y ejecuta pruebas unitarias de lógica pura, servicios y componentes par
 
 - **Puede leer**: todo el repositorio.
 - **Puede modificar**: `**/*.test.*`, `**/*.spec.*`, `reports/**`.
-- **Prohibido**: `.git/**`, `.codex/**`, `.claude/**`, código de producto no relacionado con tests.
+- **Prohibido**: `.git/**`, código de producto no relacionado con tests.
 
 ## Modelo de IA recomendado
 

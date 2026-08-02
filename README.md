@@ -27,7 +27,7 @@ Documentas una feature en lenguaje natural → un cliente de IA (Claude Code, Co
 ## Filosofía de diseño
 
 - **Markdown** para contratos de comportamiento (agentes, skills, workflows), **YAML** para configuración/datos versionados, **Bash** para validación — todo auditable en Git, sin infraestructura adicional.
-- **Mínimo privilegio**: cada agente tiene explícito qué puede leer/escribir; `.git/`, `.codex/` y `.claude/` están totalmente prohibidos, y un escáner de secretos falla cerrado ante cualquier violación.
+- **Mínimo privilegio**: cada agente tiene explícito qué puede leer/escribir; `.git/` está totalmente prohibido, y un escáner de secretos falla cerrado ante cualquier violación.
 - **Separación estricta entre plan y código**: `$feat` nunca implementa; `$task` nunca planifica. El `README.md` de cada feature es siempre autoría humana — ningún agente lo sobrescribe.
 
 ## Más detalle

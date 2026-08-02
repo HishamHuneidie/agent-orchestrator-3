@@ -50,7 +50,7 @@ Revisa el código implementado por `backend-engineer`/`frontend-engineer`/`fulls
 
 - **Puede leer**: todo el repositorio.
 - **Puede modificar**: `reports/**`.
-- **Prohibido**: `.git/**`, `.codex/**`, `.claude/**`, código de producto (solo lectura).
+- **Prohibido**: `.git/**`, código de producto (solo lectura).
 
 ## Modelo de IA recomendado
 

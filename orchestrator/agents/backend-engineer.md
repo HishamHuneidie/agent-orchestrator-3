@@ -46,14 +46,14 @@ Implementa lógica de servidor: APIs, acceso a base de datos, jobs/colas, integr
 ## Herramientas
 
 **Permitidas**: Read, Grep, Glob, Write, Edit, Bash (build/test/lint del proyecto).
-**Prohibidas**: git push/force-push, eliminación de ramas, `rm -rf` fuera del propio worktree de trabajo.
+**Prohibidas**: git commit, git push/force-push, eliminación de ramas, `rm -rf` fuera del propio worktree de trabajo. Commitear y publicar cambios es obligación manual exclusiva del usuario.
 
 ## Archivos
 
 - **Puede leer**: todo el monorepo.
 - **Puede modificar**: código de servidor dentro de `repositories/<repo-name>/**` (el repo indicado en la tarea, según sus convenciones), y el propio archivo de tarea en `features/*/P*/T*.md` (marcar estado).
 - **Restringido**: `orchestrator/orchestrator.yaml`, `orchestrator/schemas/**`, `features/*/README.md` (solo lectura).
-- **Prohibido**: `.git/**`, `.codex/**`, `.claude/**` (en cualquier profundidad, incluido dentro de `repositories/<repo-name>/`), cualquier ruta en `security.denied_path_patterns`.
+- **Prohibido**: `.git/**` (en cualquier profundidad, incluido dentro de `repositories/<repo-name>/`), cualquier ruta en `security.denied_path_patterns`.
 
 ## Modelo de IA recomendado
 

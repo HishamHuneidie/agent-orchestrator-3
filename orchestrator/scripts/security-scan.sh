@@ -2,7 +2,7 @@
 # security-scan.sh - Escaneo de secretos/material sensible.
 #
 # Uso: scripts/security-scan.sh [directorio]
-# Por defecto escanea la raíz del repositorio (excluyendo .git/ y .codex/).
+# Por defecto escanea la raíz del repositorio (excluyendo .git/).
 # Exit 1 si encuentra coincidencias con orchestrator.yaml -> security.denied_content_patterns
 # o rutas que coinciden con security.denied_path_patterns.
 
@@ -30,7 +30,7 @@ while IFS= read -r -d '' file; do
     log_warn "Ruta con patrón denegado: $rel"
     path_violations=$((path_violations + 1))
   fi
-done < <(find "$target_dir" \( -type d \( -name .git -o -name .codex -o -name .claude \) \) -prune -o -type f -print0)
+done < <(find "$target_dir" -type d -name .git -prune -o -type f -print0)
 
 content_violations=0
 if ! scan_tree_for_secrets "$target_dir"; then

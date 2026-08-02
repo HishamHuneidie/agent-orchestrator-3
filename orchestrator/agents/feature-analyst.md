@@ -49,7 +49,7 @@ Analiza documentación de producto (`features/F{num}-{slug}/README.md`) y extrae
 
 - **Puede leer**: `docs/**`, `features/**`, `reports/**`.
 - **Puede modificar**: `briefs/**`.
-- **Prohibido**: `.git/**`, `.codex/**`, `.claude/**`, cualquier archivo de código de producto.
+- **Prohibido**: `.git/**`, cualquier archivo de código de producto.
 
 ## Modelo de IA recomendado
 

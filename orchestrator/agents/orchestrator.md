@@ -59,7 +59,7 @@ Coordina el ciclo completo de una feature: dispara y secuencia las fases (`intak
 - **Puede leer**: todo el repositorio.
 - **Puede modificar**: `runtime/state/**`, `observability/**`.
 - **Restringido**: `orchestrator.yaml`, `schemas/**` (solo lectura, cambios requieren aprobación humana explícita).
-- **Prohibido**: `.git/**`, `.codex/**`, `.claude/**`.
+- **Prohibido**: `.git/**`.
 
 ## Modelo de IA recomendado
 

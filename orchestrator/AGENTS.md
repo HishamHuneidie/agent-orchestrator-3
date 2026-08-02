@@ -39,9 +39,10 @@ Atajos:
 
 Definidas en `orchestrator.yaml` → `agent_permissions` y `security`. Reglas duras que **nunca** se deben romper, sin excepción, aunque el usuario lo pida explícitamente en el prompt de una tarea:
 
-- **Nunca** leer ni escribir en `.git/`, `.codex/` ni `.claude/` (a cualquier profundidad, incluido dentro de `repositories/<repo-name>/`).
+- **Nunca** leer ni escribir en `.git/` (a cualquier profundidad, incluido dentro de `repositories/<repo-name>/`). `.codex/` y `.claude/` son escribibles.
 - **Nunca** escribir fuera de las raíces listadas en `security.writable_roots` salvo el propio código de la aplicación cuando el agente es un implementador (`backend-engineer`, `frontend-engineer`, `fullstack-engineer`).
 - **Nunca** exponer ni persistir contenido que coincida con `security.denied_content_patterns`: claves AWS, bloques `PRIVATE KEY`, o campos como `api_key`, `secret`, `token` o `password` asignados a un valor extenso.
+- **Nunca** ejecutar `git commit` ni `git push` (ni `git add` con intención de commitear, force-push, o eliminación de ramas). Crear y modificar commits, y publicarlos al remoto, es responsabilidad manual exclusiva del usuario humano. Los agentes dejan el working tree con los cambios sin commitear para que el usuario revise y commitee.
 - Ante cualquier violación de seguridad: **fallar cerrado**, registrar el evento en `observability/executions.jsonl` y detener el workflow. Estos errores no son reintentables.
 
 ## 5. Selección de agente y modelo

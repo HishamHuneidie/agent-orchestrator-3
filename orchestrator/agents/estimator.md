@@ -47,7 +47,7 @@ Estima complejidad, dependencias y tiempos de una feature a partir del brief pro
 
 - **Puede leer**: `briefs/**`, `features/**`, `reports/**`, código fuente.
 - **Puede modificar**: `briefs/**`.
-- **Prohibido**: `.git/**`, `.codex/**`, `.claude/**`.
+- **Prohibido**: `.git/**`.
 
 ## Modelo de IA recomendado
 

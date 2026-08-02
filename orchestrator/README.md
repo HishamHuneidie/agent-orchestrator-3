@@ -99,7 +99,7 @@ orchestrator/
 
 ## Seguridad
 
-Mínimo privilegio explícito en [`orchestrator.yaml`](./orchestrator.yaml) y detallado en [`docs/security.md`](./docs/security.md): rutas y patrones de contenido denegados (secretos, tokens, claves privadas), raíces escribibles acotadas, y `.git/`/`.codex/` totalmente prohibidos. Los hooks fallan cerrado ante violaciones.
+Mínimo privilegio explícito en [`orchestrator.yaml`](./orchestrator.yaml) y detallado en [`docs/security.md`](./docs/security.md): rutas y patrones de contenido denegados (secretos, tokens, claves privadas), raíces escribibles acotadas, y `.git/` totalmente prohibido. `git commit`/`git push` están prohibidos para todo agente: commitear y publicar es responsabilidad manual del usuario. Los hooks fallan cerrado ante violaciones.
 
 ## Compatibilidad
 

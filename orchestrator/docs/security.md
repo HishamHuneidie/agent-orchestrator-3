@@ -31,7 +31,11 @@ Estos patrones se verifican con `runtime/lib/security.sh` y se aplican automáti
 
 ## Raíces totalmente prohibidas
 
-`.git/`, `.codex/` y `.claude/` (a cualquier profundidad, incluido dentro de `repositories/<repo-name>/`) — ningún agente puede leer ni escribir aquí bajo ninguna circunstancia, ni siquiera `orchestrator`.
+`.git/` (a cualquier profundidad, incluido dentro de `repositories/<repo-name>/`) — ningún agente puede leer ni escribir aquí bajo ninguna circunstancia, ni siquiera `orchestrator`. `.codex/` y `.claude/` (directorios de tooling de los clientes de IA) ya no están prohibidos: son escribibles.
+
+## Commits y push prohibidos para agentes
+
+`git commit` y `git push` (incluido force-push y eliminación de ramas) están totalmente prohibidos para todo agente, en cualquier repositorio del monorepo (`tool_selection.default_denied -> git_commit_operations`). Los agentes dejan los cambios en el working tree sin commitear; revisar, commitear y publicar al remoto es responsabilidad manual exclusiva del usuario humano.
 
 ## Fallar cerrado
 

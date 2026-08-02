@@ -27,7 +27,7 @@ for input in "${required_inputs[@]:-}"; do
   rel_input="${input#"${ORCH_ROOT}"/}"
   if path_is_forbidden "$rel_input"; then
     log_error_event "$feature_id" "$phase" "input en ruta prohibida: $rel_input"
-    die "El input '$rel_input' está en una raíz totalmente prohibida (.git/.codex)."
+    die "El input '$rel_input' está en una raíz totalmente prohibida (.git)."
   fi
   if [[ ! -e "$input" ]]; then
     log_error_event "$feature_id" "$phase" "input obligatorio faltante: $rel_input"

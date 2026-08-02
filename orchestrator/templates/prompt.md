@@ -27,7 +27,7 @@ de archivos legibles/escribibles y sus checklists de calidad.
 - Alcance exacto: {alcance_de_la_unidad_de_trabajo}
 - Fuera de alcance: {explícitamente_excluido}
 - Permisos: solo puedes escribir en {rutas_permitidas_para_este_agente}
-- Nunca toques `.git/`, `.codex/`, `.claude/`, ni rutas que coincidan con `orchestrator.yaml -> security.denied_path_patterns`.
+- Nunca toques `.git/`, ni rutas que coincidan con `orchestrator.yaml -> security.denied_path_patterns`.
 
 # Output esperado
 

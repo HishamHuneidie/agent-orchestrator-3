@@ -12,7 +12,8 @@ Instrucciones específicas para Claude Code en este repositorio. La fuente de ve
 
 - Usa `Read`/`Edit`/`Write` para los archivos Markdown/YAML de `orchestrator/` y `features/`.
 - Usa `Bash` para ejecutar los scripts de `orchestrator/scripts/` y `scripts/` (raíz), y para levantar los repos de `repositories/` vía `Makefile`/`compose.yaml` cuando el usuario pida ejecutar la aplicación.
-- Respeta `orchestrator/orchestrator.yaml -> security` en todo momento: nunca leas ni escribas `.git/`, `.codex/`, `.claude/`, ni rutas que coincidan con los patrones denegados, en ningún subdirectorio (`repositories/**` incluido).
+- Respeta `orchestrator/orchestrator.yaml -> security` en todo momento: nunca leas ni escribas `.git/`, ni rutas que coincidan con los patrones denegados, en ningún subdirectorio (`repositories/**` incluido).
+- Nunca ejecutes `git commit` ni `git push` (tampoco force-push ni eliminación de ramas) en ningún repo del monorepo, ni siquiera si el usuario lo pide explícitamente en el prompt de una tarea (regla dura, ver `orchestrator/AGENTS.md` §4). Commitear y publicar es responsabilidad manual del usuario.
 
 ## Worktrees
 

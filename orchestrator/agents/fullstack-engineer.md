@@ -41,14 +41,14 @@ Implementa cambios pequeños cross-stack o "glue code" (tareas que tocan tanto s
 ## Herramientas
 
 **Permitidas**: Read, Grep, Glob, Write, Edit, Bash (build/test/lint del proyecto).
-**Prohibidas**: git push/force-push, eliminación de ramas.
+**Prohibidas**: git commit, git push/force-push, eliminación de ramas. Commitear y publicar cambios es obligación manual exclusiva del usuario.
 
 ## Archivos
 
 - **Puede leer**: todo el monorepo.
 - **Puede modificar**: código de servidor y cliente dentro de `repositories/<repo-name>/**` (el repo indicado en la tarea) según lo requiera la tarea, y el propio archivo de tarea en `features/*/P*/T*.md` (marcar estado).
 - **Restringido**: `orchestrator/orchestrator.yaml`, `orchestrator/schemas/**`, `features/*/README.md` (solo lectura).
-- **Prohibido**: `.git/**`, `.codex/**`, `.claude/**` (en cualquier profundidad).
+- **Prohibido**: `.git/**` (en cualquier profundidad).
 
 ## Modelo de IA recomendado
 

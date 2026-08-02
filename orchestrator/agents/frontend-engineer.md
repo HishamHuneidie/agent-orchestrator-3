@@ -44,14 +44,14 @@ Implementa UI/UX, estado de cliente y accesibilidad para una tarea concreta (`T{
 ## Herramientas
 
 **Permitidas**: Read, Grep, Glob, Write, Edit, Bash (build/test/lint del proyecto, dev server para verificación visual).
-**Prohibidas**: git push/force-push, eliminación de ramas.
+**Prohibidas**: git commit, git push/force-push, eliminación de ramas. Commitear y publicar cambios es obligación manual exclusiva del usuario.
 
 ## Archivos
 
 - **Puede leer**: todo el monorepo.
 - **Puede modificar**: código de cliente dentro de `repositories/<repo-name>/**` (el repo indicado en la tarea), y el propio archivo de tarea en `features/*/P*/T*.md` (marcar estado).
 - **Restringido**: `orchestrator/orchestrator.yaml`, `orchestrator/schemas/**`, contratos de API de backend, `features/*/README.md` (solo lectura).
-- **Prohibido**: `.git/**`, `.codex/**`, `.claude/**` (en cualquier profundidad).
+- **Prohibido**: `.git/**` (en cualquier profundidad).
 
 ## Modelo de IA recomendado
 

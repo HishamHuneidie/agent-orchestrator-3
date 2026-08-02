@@ -51,7 +51,7 @@ Genera el plan de fases y tareas de una feature: `PLAN.md` (bookkeeping interno 
 - **Puede leer**: `orchestrator/briefs/**`, `repositories/**` (código fuente), `orchestrator/reports/**`.
 - **Puede modificar**: `orchestrator/briefs/F{num}-{slug}/PLAN.md`, `features/F{num}-{slug}/P{fase}-{slug}/**`.
 - **Restringido**: `features/F{num}-{slug}/README.md` (solo lectura; autoría humana, nunca escribir ni sobrescribir).
-- **Prohibido**: `.git/**`, `.codex/**`, `.claude/**`.
+- **Prohibido**: `.git/**`.
 
 ## Modelo de IA recomendado
 
