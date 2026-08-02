@@ -11,7 +11,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 echo "Preparando carpetas..."
 rm -rf "${ROOT_DIR}/.git"
 rm "${ROOT_DIR}/README.md"
-mkdir docs features repositories
+mkdir docs features repositories orchestrator/runtime/state
 git init
 git add .
 git commit -m 'init: Start app'
