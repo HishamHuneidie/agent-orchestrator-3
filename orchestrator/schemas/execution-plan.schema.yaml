@@ -1,0 +1,24 @@
+# Schema: execution-plan
+# Contrato v1 (legado, aún soportado). El contrato v2 equivalente son los planes
+# Markdown en features/{feature_id}/README.md + templates/feature-plan.md.
+
+schema_id: execution-plan
+version: 1
+description: >
+  Plan de ejecución en YAML (formato legado) con fases y tareas de una feature.
+
+required:
+  - feature_id
+  - phases
+
+properties:
+  feature_id:
+    type: string
+  phases:
+    type: array
+    description: Lista de fases, cada una con id, nombre, tareas y dependencias.
+  total_estimated_hours:
+    type: number
+  generated_by:
+    type: string
+    description: "Agente que generó el plan, normalmente 'implementation-planner'."

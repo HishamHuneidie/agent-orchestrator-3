@@ -1,0 +1,37 @@
+# Schema: agent-task
+# Contrato v1 (legado, aún soportado). El contrato v2 equivalente son las tareas
+# Markdown features/{feature_id}/P{fase}-T{tarea}-*.md + templates/feature-task.md.
+
+schema_id: agent-task
+version: 1
+description: >
+  Unidad de trabajo individual asignable a un agente implementador (formato legado).
+
+required:
+  - task_id
+  - feature_id
+  - phase_id
+  - agent
+  - acceptance_criteria
+
+properties:
+  task_id:
+    type: string
+    description: "Formato P{fase}-T{tarea}, p. ej. P00-T01."
+  feature_id:
+    type: string
+  phase_id:
+    type: string
+  agent:
+    type: string
+    description: "backend-engineer | frontend-engineer | fullstack-engineer"
+  acceptance_criteria:
+    type: array
+  depends_on:
+    type: array
+    description: Lista de task_id de los que depende.
+  requires_worktree:
+    type: boolean
+  status:
+    type: string
+    description: "pending | running | waiting | failed | cancelled | completed"

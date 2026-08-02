@@ -1,0 +1,33 @@
+# Schema: test-report
+# Forma esperada de reports/<feature-id>/P{fase}-test-report.md (front-matter YAML)
+# consolidando unit-test-engineer, e2e-test-engineer y qa-verifier.
+
+schema_id: test-report
+version: 1
+description: >
+  Reporte consolidado de pruebas unitarias, e2e y verificación QA para una fase/feature.
+
+required:
+  - feature_id
+  - phase_id
+  - unit
+  - e2e
+  - qa
+
+properties:
+  feature_id:
+    type: string
+  phase_id:
+    type: string
+  unit:
+    type: object
+    description: "{status: pass|fail, cases_run, cases_failed, evidence}"
+  e2e:
+    type: object
+    description: "{status: pass|fail, flows_covered, evidence}"
+  qa:
+    type: object
+    description: "{status: pass|fail|partial, acceptance_criteria_verdicts}"
+  blocking_findings:
+    type: array
+    description: Lista consolidada de hallazgos bloqueantes de cualquiera de las tres secciones.

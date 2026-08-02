@@ -1,0 +1,400 @@
+# orchestrator.yaml
+# Fuente única de verdad de la configuración del sistema Orchestrator.
+# Formato: YAML. Validado estructuralmente por scripts/validate-structure.sh
+# y por contrato contra schemas/*.schema.yaml vía scripts/validate-contract.sh.
+
+version: 2
+supports_v1_contracts: true
+legacy_scripts_supported: true
+
+runtime:
+  mode: ai_client_orchestrated
+  description: >
+    No existe un runtime que ejecute agentes de forma autónoma. El cliente de
+    IA activo (Codex, Claude Code, ...) carga AGENTS.md, las skills en
+    ./skills y el workflow correspondiente, y ejecuta el ciclo completo.
+  supported_clients:
+    - codex
+    - claude-code
+  directories:
+    state: runtime/state
+    prompts: runtime/prompts
+    reports: reports
+    observability: observability
+    briefs: briefs
+    # Rutas relativas a la RAÍZ DEL MONOREPO (hermanas de orchestrator/), no a orchestrator/:
+    monorepo_root: ".."
+    features: "../features"
+    repositories: "../repositories"
+    app_docs: "../docs"
+  feature_naming:
+    description: >
+      Toda feature vive en un único directorio bajo features/ (raíz del
+      monorepo, hermano de orchestrator/), nombrado F{num}-{slug} (p. ej.
+      features/F01-collaborative-lab/). Ese directorio contiene: README.md
+      (documentación de producto, autoría humana, NUNCA escrito por un
+      agente) y una carpeta por fase P{fase}-{slug}/ (generada por $feat),
+      cada una con sus tareas como archivos T{tarea}-{slug}.md directos
+      dentro de la carpeta (sin repetir el prefijo de fase). El brief con el
+      análisis/estimación (equivalente al "plan") se guarda como bookkeeping
+      interno en orchestrator/briefs/F{num}-{slug}/ (brief.yaml + PLAN.md),
+      no dentro de features/.
+    folder_pattern: "features/F{num}-{slug}/"
+    readme: "features/F{num}-{slug}/README.md"
+    phase_folder_pattern: "features/F{num}-{slug}/P{fase}-{slug}/"
+    task_file_pattern: "features/F{num}-{slug}/P{fase}-{slug}/T{tarea}-{slug}.md"
+    internal_plan: "orchestrator/briefs/F{num}-{slug}/PLAN.md"
+    app_code: "repositories/{repo-name}/**"
+  entrypoints:
+    - trigger: "$feat F{num}"
+      description: >
+        Localiza features/F{num}-{slug}/README.md (ya escrito por el usuario),
+        analiza alcance/criterios/riesgos, estima (brief interno en
+        orchestrator/briefs/F{num}-{slug}/) y genera las carpetas de fase
+        features/F{num}-{slug}/P{fase}-{slug}/ con sus tareas T*.md.
+        Nunca implementa código ni toca README.md.
+      workflow: workflows/feature-planning.md
+      skill: skills/feature-planning-shortcut/SKILL.md
+    - trigger: "$task F{num1}-P{num2}"
+      description: >
+        Implementa todas las tareas de la carpeta de fase
+        features/F{num1}-{slug}/P{num2}-{slug}/T*.md, escribiendo el código
+        en repositories/<repo-name>/ según indique cada tarea, incluyendo su
+        revisión y pruebas.
+      workflow: workflows/task-delivery.md
+      skill: skills/task-delivery-shortcut/SKILL.md
+    - trigger: "implementa esta feature"
+      description: Ejecuta el workflow completo de punta a punta (intake -> delivery) para una feature ya descrita.
+      workflow: workflows/application-feature.md
+      skill: skills/application-feature-orchestration/SKILL.md
+
+parallelism:
+  max_parallel_implementers: 3
+  max_parallel_reviewers: 2
+  default_mode: sequential
+
+worktrees:
+  root: "repositories/{repo-name}/.worktrees"
+  naming_convention: "{feature_id}/{task_id}"
+  policy:
+    required_for:
+      - parallel_implementation
+      - high_risk_refactor
+    recommended_for:
+      - large_migrations
+      - cross_cutting_changes
+    disabled_for:
+      - documentation
+      - estimation
+      - small_sequential_tasks
+  scripts:
+    create: scripts/create-worktree.sh
+    cleanup: scripts/cleanup-worktree.sh
+
+security:
+  # Nota de alcance: todas las rutas de esta sección son relativas a la RAÍZ
+  # DEL MONOREPO (padre de orchestrator/), no a orchestrator/ en sí, porque los
+  # agentes operan sobre el monorepo completo: features/ y repositories/ viven
+  # como hermanos de orchestrator/.
+  classification_levels:
+    - public
+    - internal
+    - restricted
+    - secret
+  denied_path_patterns:
+    - "*.env"
+    - "*.env.*"
+    - "*secret*"
+    - "*token*"
+    - "*credential*"
+    - "*.pem"
+    - "*.crt"
+    - "*.key"
+    - "*.p12"
+    - "id_rsa*"
+    - "id_ed25519*"
+  denied_content_patterns:
+    - "AKIA[0-9A-Z]{16}"
+    - "-----BEGIN[ A-Z]*PRIVATE KEY-----"
+    - "(?i)api_key\\s*=\\s*.{12,}"
+    - "(?i)secret\\s*=\\s*.{12,}"
+    - "(?i)token\\s*=\\s*.{12,}"
+    - "(?i)password\\s*=\\s*.{8,}"
+  writable_roots:
+    - orchestrator/agents/
+    - orchestrator/skills/
+    - orchestrator/briefs/
+    - orchestrator/contracts/
+    - orchestrator/docs/
+    - orchestrator/hooks/
+    - orchestrator/observability/
+    - orchestrator/reports/
+    - orchestrator/runtime/
+    - orchestrator/schemas/
+    - orchestrator/scripts/
+    - orchestrator/templates/
+    - orchestrator/workflows/
+    - features/       # solo P{fase}-{slug}/ y sus tareas; README.md de cada feature es de solo lectura
+    - repositories/    # código de la aplicación
+  forbidden_roots:
+    - .git/
+    - .codex/
+    - .claude/
+  forbidden_path_segments:
+    # Coincide con .git/, .codex/ o .claude/ a cualquier profundidad (p. ej.
+    # dentro de repositories/<repo-name>/.git/ si ese repo es su propio
+    # repositorio git). .codex/ y .claude/ son directorios de tooling de los
+    # clientes de IA soportados, no código ni datos de la aplicación.
+    - ".git"
+    - ".codex"
+    - ".claude"
+  readonly_within_writable_roots:
+    - "features/*/README.md"  # autoría humana; ningún agente lo escribe ni sobrescribe
+  on_violation: fail_closed
+
+cost_policy:
+  max_cost_usd_per_task: 2.0
+  max_cost_usd_per_feature: 25.0
+  warn_threshold_ratio: 0.8
+
+token_policy:
+  max_tokens_per_agent_call: 200000
+  max_context_tokens: 200000
+
+time_policy:
+  max_seconds_per_task: 1800
+  max_seconds_per_feature: 21600
+
+retry_policy:
+  max_retries: 2
+  backoff_seconds: [5, 30]
+  non_retryable_errors:
+    - security_violation
+    - secret_detected
+    - schema_validation_failed
+    - permission_denied
+
+observability:
+  logs:
+    executions: observability/executions.jsonl
+  format: jsonl
+  metrics:
+    - tasks_completed
+    - tasks_failed
+    - average_task_duration_seconds
+    - average_cost_usd_per_task
+    - retries_triggered
+    - security_violations_detected
+
+tool_selection:
+  default_allowed:
+    - Read
+    - Write
+    - Edit
+    - Grep
+    - Glob
+    - Bash
+  default_denied:
+    - destructive_git_operations
+    - network_exfiltration_tools
+
+prompt_builder:
+  template: templates/prompt.md
+  sections:
+    - role
+    - context
+    - inputs
+    - constraints
+    - expected_output
+    - quality_gates
+
+models:
+  orchestrator:
+    recommended: claude-opus-5
+    alternatives: [claude-sonnet-5]
+    reasoning_effort: high
+    creativity: low
+    max_context_tokens: 200000
+    timeout_seconds: 1200
+    expected_cost_usd: 0.50
+  feature-analyst:
+    recommended: claude-sonnet-5
+    alternatives: [claude-opus-5]
+    reasoning_effort: medium
+    creativity: low
+    max_context_tokens: 200000
+    timeout_seconds: 600
+    expected_cost_usd: 0.15
+  estimator:
+    recommended: claude-sonnet-5
+    alternatives: [claude-haiku-4-5-20251001]
+    reasoning_effort: medium
+    creativity: low
+    max_context_tokens: 100000
+    timeout_seconds: 300
+    expected_cost_usd: 0.08
+  implementation-planner:
+    recommended: claude-sonnet-5
+    alternatives: [claude-opus-5]
+    reasoning_effort: high
+    creativity: medium
+    max_context_tokens: 200000
+    timeout_seconds: 900
+    expected_cost_usd: 0.25
+  backend-engineer:
+    recommended: claude-sonnet-5
+    alternatives: [claude-opus-5]
+    reasoning_effort: high
+    creativity: medium
+    max_context_tokens: 200000
+    timeout_seconds: 1800
+    expected_cost_usd: 0.40
+  frontend-engineer:
+    recommended: claude-sonnet-5
+    alternatives: [claude-opus-5]
+    reasoning_effort: high
+    creativity: medium
+    max_context_tokens: 200000
+    timeout_seconds: 1800
+    expected_cost_usd: 0.40
+  fullstack-engineer:
+    recommended: claude-sonnet-5
+    alternatives: [claude-opus-5]
+    reasoning_effort: medium
+    creativity: medium
+    max_context_tokens: 200000
+    timeout_seconds: 1200
+    expected_cost_usd: 0.30
+  code-reviewer:
+    recommended: claude-opus-5
+    alternatives: [claude-sonnet-5]
+    reasoning_effort: high
+    creativity: low
+    max_context_tokens: 200000
+    timeout_seconds: 900
+    expected_cost_usd: 0.30
+  unit-test-engineer:
+    recommended: claude-sonnet-5
+    alternatives: [claude-haiku-4-5-20251001]
+    reasoning_effort: medium
+    creativity: low
+    max_context_tokens: 150000
+    timeout_seconds: 900
+    expected_cost_usd: 0.20
+  e2e-test-engineer:
+    recommended: claude-sonnet-5
+    alternatives: [claude-opus-5]
+    reasoning_effort: medium
+    creativity: low
+    max_context_tokens: 150000
+    timeout_seconds: 1200
+    expected_cost_usd: 0.25
+  qa-verifier:
+    recommended: claude-sonnet-5
+    alternatives: [claude-opus-5]
+    reasoning_effort: medium
+    creativity: low
+    max_context_tokens: 150000
+    timeout_seconds: 600
+    expected_cost_usd: 0.15
+  delivery-summarizer:
+    recommended: claude-haiku-4-5-20251001
+    alternatives: [claude-sonnet-5]
+    reasoning_effort: low
+    creativity: low
+    max_context_tokens: 100000
+    timeout_seconds: 300
+    expected_cost_usd: 0.05
+
+agent_permissions:
+  # Rutas relativas a la raíz del monorepo (orchestrator/** para bookkeeping
+  # interno; features/** y repositories/** viven fuera de orchestrator/).
+  defaults:
+    can_read: ["**"]
+    can_write: []
+    restricted: ["orchestrator/orchestrator.yaml", "orchestrator/schemas/**"]
+    forbidden: [".git/**", ".codex/**", "**/.git/**", "**/.codex/**"]
+  overrides:
+    orchestrator:
+      can_write: ["orchestrator/runtime/state/**", "orchestrator/observability/**"]
+    feature-analyst:
+      can_write: ["orchestrator/briefs/**"]
+    estimator:
+      can_write: ["orchestrator/briefs/**"]
+    implementation-planner:
+      can_write: ["orchestrator/briefs/**", "features/*/P*/**"]
+      readonly: ["features/*/README.md"]
+    backend-engineer:
+      can_write: ["repositories/**", "features/*/P*/T*.md"]
+    frontend-engineer:
+      can_write: ["repositories/**", "features/*/P*/T*.md"]
+    fullstack-engineer:
+      can_write: ["repositories/**", "features/*/P*/T*.md"]
+    code-reviewer:
+      can_write: ["orchestrator/reports/**"]
+    unit-test-engineer:
+      can_write: ["orchestrator/reports/**", "repositories/**/*.test.*", "repositories/**/*.spec.*"]
+    e2e-test-engineer:
+      can_write: ["orchestrator/reports/**", "repositories/**/*.e2e.*"]
+    qa-verifier:
+      can_write: ["orchestrator/reports/**"]
+    delivery-summarizer:
+      can_write: ["orchestrator/reports/**"]
+
+phases:
+  - id: intake
+    agent: orchestrator
+    hook: hooks/pre-orchestration.md
+    output: runtime/state/<feature-id>.yaml
+  - id: feature_analysis
+    agent: feature-analyst
+    hook: hooks/pre-agent-dispatch.md
+    output: briefs/<feature-id>/brief.yaml
+  - id: estimation
+    agent: estimator
+    hook: hooks/post-agent-dispatch.md
+    output: briefs/<feature-id>/estimate.yaml
+  - id: planning
+    agent: implementation-planner
+    hook: hooks/post-agent-dispatch.md
+    output: "orchestrator/briefs/<feature-id>/PLAN.md + features/<feature-id>/P*-*/T*.md"
+    note: >
+      README.md dentro de features/<feature-id>/ es autoría humana (input) y
+      nunca debe ser sobrescrito por este agente.
+  - id: routing
+    agent: orchestrator
+    hook: hooks/pre-agent-dispatch.md
+    output: "asignación agente/repositorio por tarea en features/<feature-id>/P*-*/T*.md"
+  - id: implementation
+    agent: [backend-engineer, frontend-engineer, fullstack-engineer]
+    hook: hooks/pre-agent-dispatch.md
+    output: source code changes
+  - id: review
+    agent: code-reviewer
+    hook: hooks/pre-review.md
+    output: reports/<feature-id>/P*-review-report.md
+  - id: test
+    agent: [unit-test-engineer, e2e-test-engineer, qa-verifier]
+    hook: hooks/pre-test.md
+    output: reports/<feature-id>/P*-test-report.md
+  - id: delivery
+    agent: delivery-summarizer
+    hook: hooks/post-delivery.md
+    output: reports/<feature-id>/P*-delivery-summary.md
+
+agent_selection:
+  implementer:
+    backend-engineer: [api, database, jobs, integrations, server-logic]
+    frontend-engineer: [ui, ux, client-state, accessibility, styling]
+    fullstack-engineer: [small-cross-stack-change, glue-code]
+  tester:
+    unit-test-engineer: [pure-logic, services, components]
+    e2e-test-engineer: [critical-user-flows]
+
+quality_gates:
+  require_acceptance_criteria: true
+  require_validation_commands: true
+  require_schema_validation: true
+  require_secret_scan: true
+  require_code_review: true
+  require_test_report: true

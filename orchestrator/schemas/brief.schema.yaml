@@ -1,0 +1,42 @@
+# Schema: brief
+# Forma esperada del brief producido por feature-analyst en briefs/<feature-id>/brief.yaml,
+# y de su extensión con estimate.* producida por estimator.
+
+schema_id: brief
+version: 2
+description: >
+  Brief estructurado de una feature: alcance, criterios de aceptación,
+  restricciones, riesgos y fuera de alcance, extraídos de la documentación fuente.
+
+required:
+  - feature_id
+  - feature_name
+  - source_doc
+  - scope
+  - acceptance_criteria
+  - out_of_scope
+
+properties:
+  feature_id:
+    type: string
+  feature_name:
+    type: string
+  source_doc:
+    type: string
+    description: "Ruta al README.md de features/F{num}-{slug}/ usado como fuente (p. ej. features/F01-collaborative-lab/README.md)."
+  scope:
+    type: string
+  acceptance_criteria:
+    type: array
+  constraints:
+    type: array
+  risks:
+    type: array
+  out_of_scope:
+    type: array
+  open_questions:
+    type: array
+    description: Ambigüedades detectadas en la documentación fuente, pendientes de definición.
+  estimate:
+    type: object
+    description: Rellenado por estimator (complejidad, tiempos, dependencias, confianza).

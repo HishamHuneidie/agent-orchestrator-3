@@ -1,0 +1,18 @@
+# Template: execution-plan.yaml (contrato v1, legado — aún soportado)
+# Equivalente en v2: templates/feature-plan.md + templates/feature-task.md
+# Validar contra schemas/execution-plan.schema.yaml
+
+feature_id: ""
+generated_by: "implementation-planner"
+total_estimated_hours: 0
+phases:
+  - phase_id: "P00"
+    name: ""
+    depends_on: []
+    tasks:
+      - task_id: "P00-T01"
+        agent: "backend-engineer"   # backend-engineer | frontend-engineer | fullstack-engineer
+        acceptance_criteria:
+          - ""
+        depends_on: []
+        requires_worktree: false

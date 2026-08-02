@@ -1,0 +1,33 @@
+# Schema: review-report
+# Forma esperada de reports/<feature-id>/P{fase}-review-report.md (front-matter YAML)
+# generado por code-reviewer conforme a templates/review-report.md.
+
+schema_id: review-report
+version: 1
+description: >
+  Reporte de revisión de código con hallazgos verificados y priorizados.
+
+required:
+  - feature_id
+  - phase_id
+  - reviewed_by
+  - verdict
+  - findings
+
+properties:
+  feature_id:
+    type: string
+  phase_id:
+    type: string
+  reviewed_by:
+    type: string
+    description: "Siempre 'code-reviewer'."
+  verdict:
+    type: string
+    description: "approved | changes_requested"
+  findings:
+    type: array
+    description: Lista de hallazgos, cada uno con severidad (blocking|important|minor), archivo y descripción.
+  acceptance_criteria_checked:
+    type: array
+    description: Lista de criterios de aceptación contrastados y su resultado.

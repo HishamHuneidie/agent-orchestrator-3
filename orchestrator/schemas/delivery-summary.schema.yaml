@@ -1,0 +1,32 @@
+# Schema: delivery-summary
+# Forma esperada de reports/<feature-id>/P{fase}-delivery-summary.md (front-matter YAML)
+# generado por delivery-summarizer conforme a templates/delivery-summary.md.
+
+schema_id: delivery-summary
+version: 1
+description: >
+  Resumen final de entrega de una fase o feature completa.
+
+required:
+  - feature_id
+  - phase_id
+  - delivered_scope
+  - review_summary
+  - test_summary
+
+properties:
+  feature_id:
+    type: string
+  phase_id:
+    type: string
+  delivered_scope:
+    type: string
+  review_summary:
+    type: string
+  test_summary:
+    type: string
+  known_pending_items:
+    type: array
+    description: Deuda técnica o pendientes conscientemente aceptados.
+  delivered_at:
+    type: string

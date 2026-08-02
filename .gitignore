@@ -1,0 +1,14 @@
+
+# IDE's folders
+.idea/
+.vscode/
+
+# IA's folders
+.agents/
+.claude/
+.codex/
+
+# Custom/different files for each project
+docs/*
+features/*
+repositories/*

@@ -1,0 +1,21 @@
+# Template: frontend-brief.yaml
+# Contexto especializado entregado a frontend-engineer al despachar una tarea.
+# Generado por el prompt builder a partir de brief.yaml + la tarea concreta.
+
+feature_id: ""
+phase_id: ""                # P{fase}
+task_id: ""                 # T{tarea}
+repository: ""               # repositories/{repo-name}
+acceptance_criteria:
+  - ""
+ui_states:
+  - ""                     # loading, empty, error, success, etc.
+components_reused:
+  - ""
+apis_consumed:
+  - ""
+accessibility_requirements:
+  - ""
+requires_worktree: false
+validation_commands:
+  - ""

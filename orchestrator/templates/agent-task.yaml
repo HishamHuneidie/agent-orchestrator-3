@@ -1,0 +1,13 @@
+# Template: agent-task.yaml (contrato v1, legado — aún soportado)
+# Equivalente en v2: templates/feature-task.md
+# Validar contra schemas/agent-task.schema.yaml
+
+task_id: ""                # P{fase}-T{tarea}
+feature_id: ""
+phase_id: ""
+agent: ""                  # backend-engineer | frontend-engineer | fullstack-engineer
+acceptance_criteria:
+  - ""
+depends_on: []
+requires_worktree: false
+status: "pending"           # pending | running | waiting | failed | cancelled | completed

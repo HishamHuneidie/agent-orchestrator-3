@@ -1,0 +1,38 @@
+# Schema: feature-request
+# Contrato v1 (legado, aún soportado: orchestrator.yaml -> supports_v1_contracts).
+# Forma esperada de una solicitud manual de feature consumida por scripts/orchestrate.sh.
+
+schema_id: feature-request
+version: 1
+description: >
+  Solicitud inicial de una feature, usada por el flujo manual de soporte
+  (scripts/orchestrate.sh) cuando no se pasa por el atajo $feat.
+
+required:
+  - feature_id
+  - feature_name
+  - description
+  - requested_by
+
+properties:
+  feature_id:
+    type: string
+    description: Identificador único, kebab-case, de la feature.
+  feature_name:
+    type: string
+    description: Nombre legible de la feature.
+  description:
+    type: string
+    description: Descripción del problema/objetivo de negocio.
+  requested_by:
+    type: string
+    description: Persona o equipo que solicita la feature.
+  priority:
+    type: string
+    description: "Valores esperados: low | medium | high | critical."
+  acceptance_criteria:
+    type: array
+    description: Lista de criterios de aceptación de alto nivel (opcional en esta etapa).
+  out_of_scope:
+    type: array
+    description: Lista de elementos explícitamente fuera de alcance.

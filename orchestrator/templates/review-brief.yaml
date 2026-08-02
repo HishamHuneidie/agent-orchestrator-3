@@ -1,0 +1,13 @@
+# Template: review-brief.yaml
+# Contexto especializado entregado a code-reviewer al iniciar la fase `review`.
+# Generado a partir de la tarea/fase implementada.
+
+feature_id: ""
+phase_id: ""
+task_ids:
+  - ""
+acceptance_criteria:
+  - ""
+diff_scope: ""              # descripción de qué archivos/módulos cambiaron
+known_risk_areas:
+  - ""                      # áreas de seguridad, performance o convención a vigilar

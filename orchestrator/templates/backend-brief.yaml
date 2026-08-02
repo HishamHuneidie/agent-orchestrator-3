@@ -1,0 +1,22 @@
+# Template: backend-brief.yaml
+# Contexto especializado entregado a backend-engineer al despachar una tarea.
+# Generado por el prompt builder (templates/prompt.md) a partir de brief.yaml +
+# la tarea concreta features/F{num}-{slug}/P{fase}-{slug}/T{tarea}-*.md
+
+feature_id: ""
+phase_id: ""                # P{fase}
+task_id: ""                 # T{tarea}
+repository: ""               # repositories/{repo-name}
+acceptance_criteria:
+  - ""
+apis_involved:
+  - ""
+data_model_changes:
+  - ""
+integrations:
+  - ""
+non_functional_requirements:
+  - ""                     # rendimiento, idempotencia, rate limits, etc.
+requires_worktree: false
+validation_commands:
+  - ""

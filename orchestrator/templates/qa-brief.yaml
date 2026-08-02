@@ -1,0 +1,16 @@
+# Template: qa-brief.yaml
+# Contexto especializado entregado a unit-test-engineer / e2e-test-engineer / qa-verifier
+# al iniciar la fase `test`. Generado a partir de brief.yaml + código implementado.
+
+feature_id: ""
+phase_id: ""
+acceptance_criteria:
+  - ""
+critical_user_flows:
+  - ""
+edge_cases_to_cover:
+  - ""
+known_risks:
+  - ""
+environment_requirements:
+  - ""                     # variables de entorno, servicios que deben estar levantados, etc.

@@ -1,0 +1,32 @@
+# Schema: observability-event
+# Forma de cada línea (evento) en observability/executions.jsonl,
+# escrita por runtime/lib/observability.sh -> log_event.
+
+schema_id: observability-event
+version: 1
+description: >
+  Evento individual de ejecución registrado en formato JSONL.
+
+required:
+  - timestamp
+  - event_type
+  - feature_id
+  - phase
+  - status
+
+properties:
+  timestamp:
+    type: string
+    description: ISO-8601 UTC.
+  event_type:
+    type: string
+    description: "hook | error | metric"
+  feature_id:
+    type: string
+  phase:
+    type: string
+  status:
+    type: string
+    description: "ok | failed | retrying"
+  detail:
+    type: string

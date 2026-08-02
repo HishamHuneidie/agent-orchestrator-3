@@ -1,0 +1,10 @@
+# Template: task.yaml
+# Forma mínima genérica de una unidad de trabajo, usada por scripts/orchestrate.sh
+# cuando se orquesta manualmente sin pasar por el planificador completo.
+# Para tareas de feature reales, usar templates/feature-task.md (v2) o
+# templates/agent-task.yaml (v1).
+
+id: ""
+description: ""
+owner_agent: ""
+status: "pending"           # pending | running | waiting | failed | cancelled | completed

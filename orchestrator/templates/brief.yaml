@@ -1,0 +1,32 @@
+# Template: brief.yaml
+# Usado por feature-analyst para producir briefs/<feature-id>/brief.yaml
+# Validar contra schemas/brief.schema.yaml
+
+feature_id: ""
+feature_name: ""
+source_doc: "features/F{num}-{slug}/README.md"
+
+scope: ""
+
+acceptance_criteria:
+  - ""
+
+constraints:
+  - ""
+
+risks:
+  - ""
+
+out_of_scope:
+  - ""
+
+open_questions:
+  - ""
+
+# Rellenado posteriormente por estimator (skills/estimation/SKILL.md)
+estimate:
+  confidence: ""          # low | medium | high
+  areas: []                # [{area: backend, complexity: medium, hours_low: 0, hours_high: 0}]
+  dependencies: []
+  total_hours_low: 0
+  total_hours_high: 0

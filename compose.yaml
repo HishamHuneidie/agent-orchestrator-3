@@ -1,0 +1,20 @@
+# compose.yaml
+# Orquesta localmente los repositorios de aplicación bajo repositories/.
+# Cada servicio apunta al contexto de build de su repo y a su propio
+# repositories/<repo-name>/.docker/Dockerfile.
+#
+# Estos dos servicios son PLACEHOLDERS (repo-name-1 / repo-name-2). Renombra
+# los servicios y ajusta puertos/entornos cuando incorpores repos reales.
+
+services:
+  repo-name-1:
+    build:
+      context: ./repositories/repo-name-1
+      dockerfile: .docker/Dockerfile
+    profiles: ["placeholder"]
+
+  repo-name-2:
+    build:
+      context: ./repositories/repo-name-2
+      dockerfile: .docker/Dockerfile
+    profiles: ["placeholder"]

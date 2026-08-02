@@ -1,0 +1,22 @@
+# Template: workflow-state.yaml
+# Usado para inicializar runtime/state/<feature-id>.yaml (hooks/pre-orchestration.md
+# la genera automáticamente vía runtime/hooks/pre-orchestration.sh).
+# Validar contra schemas/workflow-state.schema.yaml
+
+feature_id: ""
+feature_name: ""
+created_at: ""
+updated_at: ""
+status: "running"           # running | waiting | failed | cancelled | completed
+current_phase: "intake"
+phases:
+  intake: {status: "pending"}
+  feature_analysis: {status: "pending"}
+  estimation: {status: "pending"}
+  planning: {status: "pending"}
+  routing: {status: "pending"}
+  implementation: {status: "pending"}
+  review: {status: "pending"}
+  test: {status: "pending"}
+  delivery: {status: "pending"}
+worktrees: []

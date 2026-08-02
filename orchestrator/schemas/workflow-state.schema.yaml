@@ -1,0 +1,37 @@
+# Schema: workflow-state
+# Forma esperada del estado persistido de un workflow en runtime/state/<feature-id>.yaml
+
+schema_id: workflow-state
+version: 2
+description: >
+  Estado completo de una feature en curso: fase actual, estado por fase,
+  y metadatos de creación/actualización.
+
+required:
+  - feature_id
+  - feature_name
+  - status
+  - current_phase
+  - phases
+
+properties:
+  feature_id:
+    type: string
+  feature_name:
+    type: string
+  created_at:
+    type: string
+  updated_at:
+    type: string
+  status:
+    type: string
+    description: "running | waiting | failed | cancelled | completed"
+  current_phase:
+    type: string
+    description: "intake | feature_analysis | estimation | planning | routing | implementation | review | test | delivery"
+  phases:
+    type: object
+    description: Mapa fase -> {status, retries, artifacts}.
+  worktrees:
+    type: array
+    description: Lista de worktrees activos asociados a esta feature (si aplica).

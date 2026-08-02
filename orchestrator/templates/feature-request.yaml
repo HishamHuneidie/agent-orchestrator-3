@@ -1,0 +1,13 @@
+# Template: feature-request.yaml
+# Rellenar y validar contra schemas/feature-request.schema.yaml
+# Usado por el flujo manual scripts/orchestrate.sh (contrato v1, legado).
+
+feature_id: ""            # kebab-case, único
+feature_name: ""
+description: ""
+requested_by: ""
+priority: "medium"         # low | medium | high | critical
+acceptance_criteria:
+  - ""
+out_of_scope:
+  - ""

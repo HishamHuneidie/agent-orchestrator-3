@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# orchestrator - CLI de soporte del sistema Orchestrator.
+#
+# Este script NO ejecuta agentes de IA. Es una utilidad que:
+#   1. Valida la estructura del repositorio (delegando en scripts/validate-structure.sh)
+#   2. Imprime instrucciones de bootstrap para que el cliente de IA activo
+#      (Codex, Claude Code, ...) cargue AGENTS.md y comience a orquestar.
+#
+# Toda la lógica real vive en runtime/engine.sh; este archivo es un shim fino
+# pensado para poder invocarse como `./orchestrator <comando>` desde la raíz
+# del control plane.
+
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+exec "${SCRIPT_DIR}/runtime/engine.sh" "$@"

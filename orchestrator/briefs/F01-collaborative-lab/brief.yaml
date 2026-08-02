@@ -1,0 +1,41 @@
+# Generado por feature-analyst + estimator a partir de features/F01-collaborative-lab/README.md
+# Validar contra schemas/brief.schema.yaml
+
+feature_id: F01-collaborative-lab
+feature_name: collaborative-lab
+source_doc: features/F01-collaborative-lab/README.md
+
+scope: >
+  Permitir que varios usuarios colaboren simultáneamente dentro de un mismo
+  "lab" (espacio de trabajo compartido), viendo los cambios de los demás en
+  tiempo real.
+
+acceptance_criteria:
+  - "Dos o más usuarios en el mismo lab ven los cambios del otro sin recargar la página"
+  - "Un usuario que se une tarde ve el estado actual completo del lab, no solo cambios futuros"
+  - "La desconexión de un usuario no corrompe el estado del lab para los demás"
+
+constraints:
+  - "Debe reutilizar la infraestructura de autenticación ya existente"
+
+risks:
+  - "Conflictos de edición concurrente sobre el mismo recurso dentro del lab"
+  - "Escalabilidad de la conexión en tiempo real con muchos labs activos simultáneamente"
+
+out_of_scope:
+  - "Historial de versiones / undo colaborativo"
+  - "Permisos granulares por usuario dentro de un lab (todos los miembros tienen los mismos permisos)"
+
+open_questions:
+  - "¿Qué pasa si dos usuarios editan el mismo elemento en el mismo instante? No especificado en la documentación fuente."
+
+estimate:
+  confidence: medium
+  areas:
+    - {area: backend, complexity: high, hours_low: 24, hours_high: 40}
+    - {area: frontend, complexity: medium, hours_low: 16, hours_high: 24}
+    - {area: tests, complexity: medium, hours_low: 8, hours_high: 12}
+  dependencies:
+    - "Infraestructura de websockets/tiempo real ya disponible en el proyecto"
+  total_hours_low: 48
+  total_hours_high: 76
