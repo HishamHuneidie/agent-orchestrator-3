@@ -32,8 +32,9 @@ runtime:
       Toda feature vive en un único directorio bajo features/ (raíz del
       monorepo, hermano de orchestrator/), nombrado F{num}-{slug} (p. ej.
       features/F01-collaborative-lab/). Ese directorio contiene: README.md
-      (documentación de producto, autoría humana, NUNCA escrito por un
-      agente) y una carpeta por fase P{fase}-{slug}/ (generada por $feat),
+      (documento fuente de producto, creado manualmente o actualizado por
+      $docu tras aprobación, solo lectura para $feat, $task e implementación)
+      y una carpeta por fase P{fase}-{slug}/ (generada por $feat),
       cada una con sus tareas como archivos T{tarea}-{slug}.md directos
       dentro de la carpeta (sin repetir el prefijo de fase). El brief con el
       análisis/estimación (equivalente al "plan") se guarda como bookkeeping
@@ -46,10 +47,29 @@ runtime:
     internal_plan: "orchestrator/briefs/F{num}-{slug}/PLAN.md"
     app_code: "repositories/{repo-name}/**"
   entrypoints:
+    - trigger: "$docu"
+      description: "Analiza docs/ y genera o actualiza las features de producto necesarias."
+      skill: "skills/documentation-generation/SKILL.md"
+      workflow: "workflows/documentation-generation.md"
+      allowed_reads:
+        - "docs/**"
+        - "features/**"
+        - "orchestrator/**"
+        - "AGENTS.md"
+      allowed_writes:
+        - "features/F*/README.md"
+      forbidden_writes:
+        - "orchestrator/README.md"
+        - "features/F*/P*/**"
+        - "repositories/**"
+        - "orchestrator/briefs/**"
+        - "orchestrator/reports/**"
+        - "orchestrator/runtime/**"
+      requires_approval_before_write: true
     - trigger: "$feat F{num}"
       description: >
-        Localiza features/F{num}-{slug}/README.md (ya escrito por el usuario),
-        analiza alcance/criterios/riesgos, estima (brief interno en
+        Localiza features/F{num}-{slug}/README.md (fuente de producto creada
+        manualmente o por $docu tras aprobación), analiza alcance/criterios/riesgos, estima (brief interno en
         orchestrator/briefs/F{num}-{slug}/) y genera las carpetas de fase
         features/F{num}-{slug}/P{fase}-{slug}/ con sus tareas T*.md.
         Nunca implementa código ni toca README.md.
@@ -139,7 +159,7 @@ security:
     - orchestrator/scripts/
     - orchestrator/templates/
     - orchestrator/workflows/
-    - features/       # solo P{fase}-{slug}/ y sus tareas; README.md de cada feature es de solo lectura
+    - features/       # $docu puede escribir README.md aprobados; $feat/$task solo P{fase}-{slug}/ y tareas
     - repositories/    # código de la aplicación
   forbidden_roots:
     - .git/
@@ -149,8 +169,6 @@ security:
     # git). .codex/ y .claude/ (directorios de tooling de los clientes de IA)
     # ya no están prohibidos: son escribibles.
     - ".git"
-  readonly_within_writable_roots:
-    - "features/*/README.md"  # autoría humana; ningún agente lo escribe ni sobrescribe
   on_violation: fail_closed
 
 cost_policy:
@@ -243,6 +261,14 @@ models:
     max_context_tokens: 200000
     timeout_seconds: 900
     expected_cost_usd: 0.25
+  documentation-analyst:
+    recommended: claude-sonnet-5
+    alternatives: [claude-opus-5]
+    reasoning_effort: high
+    creativity: low
+    max_context_tokens: 200000
+    timeout_seconds: 900
+    expected_cost_usd: 0.20
   backend-engineer:
     recommended: claude-sonnet-5
     alternatives: [claude-opus-5]
@@ -321,6 +347,9 @@ agent_permissions:
       can_write: ["orchestrator/runtime/state/**", "orchestrator/observability/**"]
     feature-analyst:
       can_write: ["orchestrator/briefs/**"]
+    documentation-analyst:
+      can_write:
+        - "features/F*/README.md"
     estimator:
       can_write: ["orchestrator/briefs/**"]
     implementation-planner:
@@ -361,8 +390,9 @@ phases:
     hook: hooks/post-agent-dispatch.md
     output: "orchestrator/briefs/<feature-id>/PLAN.md + features/<feature-id>/P*-*/T*.md"
     note: >
-      README.md dentro de features/<feature-id>/ es autoría humana (input) y
-      nunca debe ser sobrescrito por este agente.
+      README.md dentro de features/<feature-id>/ es la fuente de producto
+      (creada manualmente o por $docu tras aprobación) y nunca debe ser
+      sobrescrito por este agente.
   - id: routing
     agent: orchestrator
     hook: hooks/pre-agent-dispatch.md

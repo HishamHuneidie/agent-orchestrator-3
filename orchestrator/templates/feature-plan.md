@@ -3,8 +3,9 @@ Template: feature-plan.md
 Usado por implementation-planner para generar orchestrator/briefs/{feature_id}/PLAN.md.
 Este PLAN.md es bookkeeping INTERNO del orquestador (vive en orchestrator/briefs/,
 NO dentro de features/). La carpeta features/{feature_id}/ (raíz del monorepo)
-solo contiene README.md (autoría humana, NUNCA generado/sobrescrito por este
-template) y las carpetas de fase P{fase}-{slug}/ con sus tareas.
+solo contiene README.md (fuente de producto creada manualmente o por $docu,
+NUNCA generado/sobrescrito por este template) y las carpetas de fase
+P{fase}-{slug}/ con sus tareas.
 Este archivo es el plan de la feature: fases, tareas y estimaciones. NO contiene
 código ni detalles de implementación línea a línea (eso vive en cada tarea).
 -->
@@ -14,7 +15,7 @@ código ni detalles de implementación línea a línea (eso vive en cada tarea).
 - **feature_id**: `{feature_id}` <!-- p. ej. F01-collaborative-lab -->
 - **Estado**: planned <!-- planned | in_progress | completed -->
 - **Brief**: `orchestrator/briefs/{feature_id}/brief.yaml`
-- **Fuente**: `features/{feature_id}/README.md` (autoría humana, no modificado por este plan)
+- **Fuente**: `features/{feature_id}/README.md` (fuente de producto creada manualmente o por `$docu`, no modificada por este plan)
 
 ## Alcance
 

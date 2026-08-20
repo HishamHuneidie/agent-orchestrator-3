@@ -9,7 +9,7 @@ Workflow stateful completo: `intake -> feature_analysis -> estimation -> plannin
 | `intake` | orchestrator | `hooks/pre-orchestration.md` | `runtime/state/<feature-id>.yaml` (creado) |
 | `feature_analysis` | feature-analyst | `hooks/pre-agent-dispatch.md` | `briefs/<feature-id>/brief.yaml` |
 | `estimation` | estimator | `hooks/post-agent-dispatch.md` | `briefs/<feature-id>/estimate.yaml` |
-| `planning` | implementation-planner | `hooks/post-agent-dispatch.md` | `features/<feature-id>/PLAN.md` + `features/<feature-id>/tasks/*.md` |
+| `planning` | implementation-planner | `hooks/post-agent-dispatch.md` | `orchestrator/briefs/<feature-id>/PLAN.md` + `features/<feature-id>/P*-*/T*.md` |
 | `routing` | orchestrator | `hooks/pre-agent-dispatch.md` | asignación agente↔tarea en el estado |
 | `implementation` | backend/frontend/fullstack-engineer | `hooks/pre-agent-dispatch.md` | cambios de código |
 | `review` | code-reviewer | `hooks/pre-review.md` | `reports/<feature-id>/P*-review-report.md` |

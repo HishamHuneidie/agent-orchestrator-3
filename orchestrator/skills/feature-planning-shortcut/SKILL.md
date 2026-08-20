@@ -6,11 +6,11 @@ Se activa con el atajo `$feat F{num}` (p. ej. `$feat F01`).
 
 ## Parameters
 
-- `num` (obligatorio): número de la feature. El directorio de la feature ya debe existir como `features/F{num}-{slug}/` (raíz del monorepo, hermano de `orchestrator/`; creado y nombrado por el usuario), conteniendo al menos `README.md`.
+- `num` (obligatorio): número de la feature. El directorio de la feature ya debe existir como `features/F{num}-{slug}/` (raíz del monorepo, hermano de `orchestrator/`; creado manualmente o por `$docu` tras aprobación), conteniendo al menos `README.md`.
 
 ## Inputs
 
-- `features/F{num}-{slug}/README.md` (documentación de producto fuente; autoría humana, obligatoria — si no existe, la skill se detiene y lo pide).
+- `features/F{num}-{slug}/README.md` (documentación de producto fuente; creada manualmente o por `$docu` tras aprobación, obligatoria — si no existe, la skill se detiene y lo pide).
 - `workflows/feature-planning.md`.
 
 ## Procedure
@@ -23,7 +23,7 @@ Se activa con el atajo `$feat F{num}` (p. ej. `$feat F01`).
 6. Despachar a `implementation-planner` para producir:
    - `orchestrator/briefs/{feature_id}/PLAN.md` (plan de fases, usando `templates/feature-plan.md`; bookkeeping interno, no vive dentro de `features/`).
    - `features/F{num}-{slug}/P{fase}-{slug}/` (una carpeta por fase) con `T{tarea}-{slug}.md` dentro (una por tarea, usando `templates/feature-task.md`).
-7. **Nunca escribir ni sobrescribir `README.md`.** Es autoría humana; esta skill solo lo lee.
+7. **Nunca escribir ni sobrescribir `README.md`.** Es la fuente de producto creada manualmente o por `$docu` tras aprobación; esta skill solo lo lee.
 8. **No implementar código en ningún paso de esta skill.**
 9. Informar al usuario un resumen del plan generado (número de fases, número de tareas, estimación total) y la ruta de `PLAN.md`.
 

@@ -9,7 +9,7 @@ Workflow del atajo `$feat F{num}`. Subconjunto de `application-feature.md` que s
 | `intake` | orchestrator | `hooks/pre-orchestration.md` | `runtime/state/<feature-id>.yaml` (creado) |
 | `feature_analysis` | feature-analyst | `hooks/pre-agent-dispatch.md` | `briefs/<feature-id>/brief.yaml` |
 | `estimation` | estimator | `hooks/post-agent-dispatch.md` | `briefs/<feature-id>/estimate.yaml` |
-| `planning` | implementation-planner | `hooks/post-agent-dispatch.md` | `features/<feature-id>/PLAN.md` + `features/<feature-id>/tasks/*.md` |
+| `planning` | implementation-planner | `hooks/post-agent-dispatch.md` | `orchestrator/briefs/<feature-id>/PLAN.md` + `features/<feature-id>/P*-*/T*.md` |
 
 ## Estados posibles
 

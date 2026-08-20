@@ -2,7 +2,7 @@
 
 ## Arrancar con una feature nueva
 
-1. En la **raíz del monorepo** (no dentro de `orchestrator/`), crea `features/F{num}-{slug}/` (p. ej. `features/F01-collaborative-lab/`) y escribe `README.md` dentro: alcance, criterios de aceptación, restricciones, riesgos, fuera de alcance. Este archivo es tuyo — ningún agente lo escribe ni lo sobrescribe.
+1. En la **raíz del monorepo** (no dentro de `orchestrator/`), crea manualmente `features/F{num}-{slug}/README.md` o genera/actualiza ese archivo con `$docu` tras aprobación explícita. Debe contener alcance, criterios de aceptación, restricciones, riesgos y fuera de alcance. Para `$feat`, `$task` y los agentes de implementación, este archivo siempre es de solo lectura.
 2. En tu cliente de IA (con `AGENTS.md` cargado), escribe: `$feat F{num}` (p. ej. `$feat F01`).
 3. Revisa las carpetas de fase generadas en `features/F{num}-{slug}/P{fase}-{slug}/` y sus tareas (`T*.md`) antes de implementar nada.
 4. Cuando el plan esté aprobado, escribe: `$task F{num}-P{fase}` (p. ej. `$task F01-P01`) para desarrollar esa fase completa (implementación + revisión + pruebas). El código se escribe en `repositories/<repo-name>/`.

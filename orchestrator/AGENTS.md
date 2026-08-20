@@ -25,14 +25,15 @@ Cada fase está definida en `orchestrator.yaml` (`phases:`), con su agente, hook
 
 Toda feature vive en un único directorio `features/F{num}-{slug}/` con tres partes:
 
-- **`README.md`** — documentación de producto. **Autoría humana.** Ningún agente debe crearlo ni sobrescribirlo; si no existe, `$feat` se detiene y lo pide.
-- **`PLAN.md`** — generado por `$feat`: alcance, criterios de aceptación, restricciones, riesgos, fuera de alcance, estimación y tabla de fases/tareas.
-- **`tasks/`** — generado por `$feat`: un archivo `P{fase}-T{tarea}-{slug}.md` por tarea.
+- **`README.md`** — documentación fuente de producto. Puede ser escrita manualmente o generada por `$docu` tras aprobación. Para `$feat`, `$task` y los agentes de implementación siempre es de solo lectura; si no existe, `$feat` se detiene y lo pide.
+- **`P{fase}-{slug}/`** — carpetas de fase generadas por `$feat`.
+- **`T{tarea}-{slug}.md`** — tareas generadas por `$feat` dentro de cada carpeta de fase.
 
 Atajos:
 
-- **`$feat F{num}`**: localiza `features/F{num}-{slug}/README.md` (buscando el directorio único cuyo nombre empieza por `F{num}-`), extrae alcance/criterios/restricciones/riesgos/fuera de alcance, estima, y escribe `features/F{num}-{slug}/PLAN.md` + `features/F{num}-{slug}/tasks/*.md`. **No implementa código. Nunca toca README.md.**
-- **`$task F{num}-P{fase}`**: implementa todas las tareas de esa fase (`features/F{num}-{slug}/tasks/P{fase}-T*.md`), incluida su revisión y pruebas. El selector se resuelve con `scripts/resolve-feature-tasks.sh`. Opcionalmente admite `F{num}-P{fase}-T{tarea}` para una única tarea dentro de la fase.
+- **`$docu`**: analiza `docs/**` y `features/**`, presenta un catálogo y los cambios propuestos, espera aprobación explícita y materializa únicamente los `features/F*/README.md` aprobados. **No genera fases ni tareas. No implementa código.**
+- **`$feat F{num}`**: localiza `features/F{num}-{slug}/README.md` (buscando el directorio único cuyo nombre empieza por `F{num}-`), extrae alcance/criterios/restricciones/riesgos/fuera de alcance, estima, y escribe `orchestrator/briefs/F{num}-{slug}/PLAN.md` + `features/F{num}-{slug}/P{fase}-{slug}/T*.md`. **No implementa código. Nunca toca README.md.**
+- **`$task F{num}-P{fase}`**: implementa todas las tareas de esa fase (`features/F{num}-{slug}/P{fase}-{slug}/T*.md`), incluida su revisión y pruebas. El selector se resuelve con `scripts/resolve-feature-tasks.sh`. Opcionalmente admite `F{num}-P{fase}-T{tarea}` para una única tarea dentro de la fase.
 - **"implementa esta feature"**: ejecuta `workflows/application-feature.md` de punta a punta.
 
 ## 4. Reglas de permisos (mínimo privilegio)

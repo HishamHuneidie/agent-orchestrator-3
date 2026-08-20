@@ -15,7 +15,7 @@ El Orchestrator es un **control plane** basado en archivos, no una aplicación d
 
 ```text
 features/F01-collaborative-lab/
-├── README.md              # Documentación de producto. Autoría HUMANA. $feat solo lo LEE, nunca lo escribe.
+├── README.md              # Fuente de producto. Manual o $docu aprobado. $feat solo lo LEE.
 ├── P01-infra/              # Carpeta de fase. Generada/gestionada por $feat.
 │   ├── T01-canal-tiempo-real.md
 │   └── T02-resincronizacion.md
@@ -25,22 +25,24 @@ features/F01-collaborative-lab/
 
 Cada fase es una **carpeta** `P{fase}-{slug}/`; cada tarea es un **archivo** `T{tarea}-{slug}.md` dentro de esa carpeta (sin repetir el prefijo de fase). El brief con el análisis/estimación de la feature se guarda internamente en `orchestrator/briefs/F{num}-{slug}/brief.yaml` (bookkeeping del orquestador, no forma parte de la carpeta de la feature).
 
-1. **Tú** creas `features/F{num}-{slug}/README.md` con el alcance, criterios de aceptación, restricciones, riesgos y fuera de alcance de la feature.
-2. Ejecutas `$feat F{num}` para que el Orchestrator la analice, estime y planifique (genera las carpetas de fase y sus tareas).
+1. Creas manualmente `features/F{num}-{slug}/README.md` o ejecutas `$docu` para proponer y materializar los README aprobados.
+2. Ejecutas `$feat F{num}` para que el Orchestrator analice, estime y planifique esa fuente de producto (genera las carpetas de fase y sus tareas).
 3. Ejecutas `$task F{num}-P{fase}` para implementar una fase concreta (con su revisión y pruebas). El código se escribe en `repositories/<repo-name>/`, no en `features/`.
 
 ## Uso rápido (atajos)
 
 | Atajo | Qué hace |
 |---|---|
-| `$feat F{num}` | Localiza `features/F{num}-{slug}/README.md` (ya escrito por ti), analiza alcance/criterios/riesgos, estima y genera las carpetas `features/F{num}-{slug}/P{fase}-{slug}/` con sus tareas. **No implementa código.** |
+| `$docu` | Analiza `docs/**` y `features/**`, presenta un catálogo y cambios propuestos, espera aprobación explícita y materializa únicamente los `features/F*/README.md` aprobados. **No genera fases ni tareas.** |
+| `$feat F{num}` | Localiza `features/F{num}-{slug}/README.md` (fuente de producto manual o generada por `$docu`), analiza alcance/criterios/riesgos, estima y genera las carpetas `features/F{num}-{slug}/P{fase}-{slug}/` con sus tareas. **No implementa código. Nunca toca README.md.** |
 | `$task F{num}-P{fase}` | Implementa todas las tareas de esa carpeta de fase (`P{fase}-{slug}/T*.md`), incluyendo su revisión y pruebas. |
 | `implementa esta feature` | Ejecuta el workflow completo de punta a punta: intake → análisis → estimación → planificación → routing → implementación → revisión → pruebas → entrega. |
 
 ### Ejemplo completo
 
 ```bash
-# 1. Escribes el alcance de la feature (relativo a la raíz del monorepo, no a orchestrator/)
+# 1. Escribes manualmente el alcance o usas $docu para proponerlo y aprobarlo
+#    (relativo a la raíz del monorepo, no a orchestrator/)
 mkdir -p ../features/F01-collaborative-lab
 $EDITOR ../features/F01-collaborative-lab/README.md
 

@@ -21,7 +21,7 @@ Un monorepo que combina:
 
 | Qué | Dónde |
 |---|---|
-| Documentación de producto de una feature (autoría humana) | `features/F{num}-{slug}/README.md` |
+| Documentación fuente de producto, creada manualmente o por `$docu` tras aprobación | `features/F{num}-{slug}/README.md` |
 | Fases de una feature | `features/F{num}-{slug}/P{fase}-{slug}/` (carpetas) |
 | Tareas de una fase | `features/F{num}-{slug}/P{fase}-{slug}/T{tarea}-{slug}.md` |
 | Código de la aplicación | `repositories/<repo-name>/**` |
@@ -32,7 +32,7 @@ Un monorepo que combina:
 
 - `$feat F{num}` → analiza `features/F{num}-{slug}/README.md`, genera las carpetas de fase y sus tareas. No implementa código.
 - `$task F{num}-P{fase}` → implementa todas las tareas de esa carpeta de fase (código en `repositories/**`, revisión y pruebas incluidas).
-- `$docu` → analiza la carpeta docs, genera las diferentes features que serán desarrolladas más adelante por la instrucción `$feat ***`. No implementa código. La revisión es exhaustiva para que las diferentes features permitan crear una app completamente funcional con todos los componentes que una app completa amerita.
+- `$docu` → analiza la carpeta docs, propone el catálogo de features y materializa los `README.md` aprobados que serán desarrollados más adelante con `$feat ***`. No implementa código ni genera fases o tareas.
 
 Ver `orchestrator/AGENTS.md` para el detalle completo de cada fase, permisos y quality gates.
 
@@ -74,4 +74,3 @@ Todo debe quedar contenido dentro de este proyecto, `mini-video-factory`. No rea
 ```
 
 ---
-

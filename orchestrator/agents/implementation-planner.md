@@ -2,7 +2,7 @@
 
 ## Propósito
 
-Genera el plan de fases y tareas de una feature: `PLAN.md` (bookkeeping interno en `orchestrator/briefs/F{num}-{slug}/`) y las carpetas de fase `features/F{num}-{slug}/P{fase}-{slug}/` con sus archivos de tarea `T{tarea}-{slug}.md` (en la raíz del monorepo, hermana de `orchestrator/`), sin implementar código todavía. **Nunca escribe ni sobrescribe `README.md`** (es autoría humana, solo lo lee como input).
+Genera el plan de fases y tareas de una feature: `PLAN.md` (bookkeeping interno en `orchestrator/briefs/F{num}-{slug}/`) y las carpetas de fase `features/F{num}-{slug}/P{fase}-{slug}/` con sus archivos de tarea `T{tarea}-{slug}.md` (en la raíz del monorepo, hermana de `orchestrator/`), sin implementar código todavía. **Nunca escribe ni sobrescribe `README.md`** (es la fuente de producto creada manualmente o por `$docu` tras aprobación, solo la lee como input).
 
 ## Responsabilidades
 
@@ -50,7 +50,7 @@ Genera el plan de fases y tareas de una feature: `PLAN.md` (bookkeeping interno 
 
 - **Puede leer**: `orchestrator/briefs/**`, `repositories/**` (código fuente), `orchestrator/reports/**`.
 - **Puede modificar**: `orchestrator/briefs/F{num}-{slug}/PLAN.md`, `features/F{num}-{slug}/P{fase}-{slug}/**`.
-- **Restringido**: `features/F{num}-{slug}/README.md` (solo lectura; autoría humana, nunca escribir ni sobrescribir).
+- **Restringido**: `features/F{num}-{slug}/README.md` (solo lectura; fuente de producto creada manualmente o por `$docu` tras aprobación, nunca escribir ni sobrescribir).
 - **Prohibido**: `.git/**`.
 
 ## Modelo de IA recomendado
