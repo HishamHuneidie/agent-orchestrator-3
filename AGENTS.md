@@ -32,5 +32,46 @@ Un monorepo que combina:
 
 - `$feat F{num}` → analiza `features/F{num}-{slug}/README.md`, genera las carpetas de fase y sus tareas. No implementa código.
 - `$task F{num}-P{fase}` → implementa todas las tareas de esa carpeta de fase (código en `repositories/**`, revisión y pruebas incluidas).
+- `$docu` → analiza la carpeta docs, genera las diferentes features que serán desarrolladas más adelante por la instrucción `$feat ***`. No implementa código. La revisión es exhaustiva para que las diferentes features permitan crear una app completamente funcional con todos los componentes que una app completa amerita.
 
 Ver `orchestrator/AGENTS.md` para el detalle completo de cada fase, permisos y quality gates.
+
+## Inicialización
+
+Cuando se escriban comandos que hablen de inicializar el orquestador, se debe ejecutar un prompt específico.
+
+Ejemplos de instrucciones de inicialización del orquestador:
+- inicia el orquestador
+- orch-init
+- inicializa el orquestador
+- carga los componentes del orquestador
+- load orchestrator
+
+El prompt específico que se debe ejecutar es el siguiente:
+
+```markdown
+Revisa a fondo la carpeta `orchestrator` y entiende la finalidad de cada uno de sus componentes.
+
+Tu objetivo es utilizar toda la información disponible en `orchestrator` para configurar correctamente Codex dentro de este proyecto, creando y organizando los archivos necesarios en `.codex/`, incluyendo `.codex/agents/` y cualquier otra subcarpeta que sea necesaria.
+
+Dentro de `orchestrator` encontrarás distintos tipos de componentes, por ejemplo:
+
+* `agents/`: definición y documentación de los subagentes.
+* `skills/`: definición de skills.
+* `workflows/`: workflows y procesos de trabajo.
+* `hooks/`: hooks y automatizaciones.
+* Otros componentes o configuraciones relevantes que deberás identificar durante el análisis.
+
+Es importante entender que los archivos dentro de `orchestrator` describen cómo debe funcionar cada componente, pero no necesariamente representan el archivo final que Codex necesita. Debes interpretar esa documentación y, basándote en ella, crear dentro de `.codex/` los archivos reales necesarios para que Codex pueda utilizar esos componentes correctamente.
+
+Puedes crear archivos en el formato que corresponda según las capacidades y convenciones actuales de Codex (`.md`, `.toml`, `.yaml`, `.ts`, etc.). No copies estructuras o formatos de forma mecánica: adapta cada componente al formato que Codex realmente necesite.
+
+Evita duplicar configuraciones o crear archivos redundantes. Si varios documentos describen partes de una misma configuración, consolídalos cuando tenga sentido.
+
+El resultado final debe dejar `.codex/` completamente configurado para que todos los componentes relevantes definidos en `orchestrator` puedan utilizarse tanto en esta sesión como en futuras sesiones de Codex dentro de este proyecto.
+
+Todo debe quedar contenido dentro de este proyecto, `mini-video-factory`. No realices configuraciones globales fuera del proyecto.
+```
+
+---
+
