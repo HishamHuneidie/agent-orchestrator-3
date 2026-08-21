@@ -34,6 +34,7 @@ Atajos:
 - **`$docu`**: analiza `docs/**` y `features/**`, presenta un catálogo y los cambios propuestos, espera aprobación explícita y materializa únicamente los `features/F*/README.md` aprobados. **No genera fases ni tareas. No implementa código.**
 - **`$feat F{num}`**: localiza `features/F{num}-{slug}/README.md` (buscando el directorio único cuyo nombre empieza por `F{num}-`), extrae alcance/criterios/restricciones/riesgos/fuera de alcance, estima, y escribe `orchestrator/briefs/F{num}-{slug}/PLAN.md` + `features/F{num}-{slug}/P{fase}-{slug}/T*.md`. **No implementa código. Nunca toca README.md.**
 - **`$task F{num}-P{fase}`**: implementa todas las tareas de esa fase (`features/F{num}-{slug}/P{fase}-{slug}/T*.md`), incluida su revisión y pruebas. El selector se resuelve con `scripts/resolve-feature-tasks.sh`. Opcionalmente admite `F{num}-P{fase}-T{tarea}` para una única tarea dentro de la fase.
+- **`$task F{num}`**: implementa todas las fases planificadas de la feature (`features/F{num}-{slug}/P*/T*.md`), en orden numérico por defecto. Puede ejecutar fases o tareas en paralelo solo cuando el plan no declare dependencias cruzadas y se respeten los límites de paralelismo.
 - **"implementa esta feature"**: ejecuta `workflows/application-feature.md` de punta a punta.
 
 ## 4. Reglas de permisos (mínimo privilegio)

@@ -2,7 +2,7 @@
 
 ## No hay runtime externo
 
-No existe ningún proceso fuera del propio cliente de IA (Codex, Claude Code, ...) que despache agentes. Cuando el usuario escribe `$feat F01`, `$task F01-P00` o "implementa esta feature" dentro de su sesión con el cliente de IA, es **ese mismo cliente** quien:
+No existe ningún proceso fuera del propio cliente de IA (Codex, Claude Code, ...) que despache agentes. Cuando el usuario escribe `$feat F01`, `$task F01-P00`, `$task F01` o "implementa esta feature" dentro de su sesión con el cliente de IA, es **ese mismo cliente** quien:
 
 1. Reconoce el atajo (definido en `orchestrator.yaml -> runtime.entrypoints`).
 2. Carga la skill asociada (`skills/.../SKILL.md`) y el workflow asociado (`workflows/*.md`).

@@ -32,6 +32,7 @@ Un monorepo que combina:
 
 - `$feat F{num}` → analiza `features/F{num}-{slug}/README.md`, genera las carpetas de fase y sus tareas. No implementa código.
 - `$task F{num}-P{fase}` → implementa todas las tareas de esa carpeta de fase (código en `repositories/**`, revisión y pruebas incluidas).
+- `$task F{num}` → implementa todas las fases planificadas de esa feature, secuencialmente por defecto y en paralelo solo cuando las dependencias lo permitan.
 - `$docu` → analiza la carpeta docs, propone el catálogo de features y materializa los `README.md` aprobados que serán desarrollados más adelante con `$feat ***`. No implementa código ni genera fases o tareas.
 
 Ver `orchestrator/AGENTS.md` para el detalle completo de cada fase, permisos y quality gates.

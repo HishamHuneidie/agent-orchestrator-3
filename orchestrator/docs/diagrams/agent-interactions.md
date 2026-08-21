@@ -21,7 +21,7 @@ sequenceDiagram
     IP-->>O: orchestrator/briefs/F01-mi-feature/PLAN.md + features/F01-mi-feature/P01-*/T*.md
     O-->>U: plan listo (sin código)
 
-    U->>O: $task F01-P01
+    U->>O: $task F01-P01 / $task F01
     O->>IM: implementa tarea(s) asignada(s)
     IM-->>O: cambios de código en repositories/<repo-name>/
     O->>CR: revisa el código

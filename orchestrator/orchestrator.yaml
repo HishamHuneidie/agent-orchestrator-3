@@ -83,6 +83,15 @@ runtime:
         revisión y pruebas.
       workflow: workflows/task-delivery.md
       skill: skills/task-delivery-shortcut/SKILL.md
+    - trigger: "$task F{num1}"
+      description: >
+        Implementa todas las fases planificadas de la feature
+        features/F{num1}-{slug}/P*/T*.md, por orden numérico por defecto y
+        en paralelo solo cuando no existan dependencias cruzadas, escribiendo
+        el código en repositories/<repo-name>/ según indique cada tarea,
+        incluyendo revisión, pruebas y resumen de entrega por fase.
+      workflow: workflows/task-delivery.md
+      skill: skills/task-delivery-shortcut/SKILL.md
     - trigger: "implementa esta feature"
       description: Ejecuta el workflow completo de punta a punta (intake -> delivery) para una feature ya descrita.
       workflow: workflows/application-feature.md

@@ -22,6 +22,7 @@ Documentas una feature en lenguaje natural → un cliente de IA (Claude Code, Co
 
 - `$feat F{num}` — analiza `features/F{num}-{slug}/README.md` (ya escrito por ti) y genera el plan: carpetas de fase con sus tareas. **No escribe código.**
 - `$task F{num}-P{fase}` — implementa todas las tareas de esa fase en el `repositories/<repo-name>/` correspondiente, con revisión de código y pruebas incluidas.
+- `$task F{num}` — implementa todas las fases planificadas de esa feature, en orden salvo que el plan permita paralelizar fases independientes.
 - `implementa esta feature` — ejecuta el ciclo completo de punta a punta (análisis → estimación → planificación → implementación → revisión → pruebas → entrega).
 
 ## Filosofía de diseño

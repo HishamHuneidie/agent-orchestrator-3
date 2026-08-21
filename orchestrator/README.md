@@ -27,7 +27,7 @@ Cada fase es una **carpeta** `P{fase}-{slug}/`; cada tarea es un **archivo** `T{
 
 1. Creas manualmente `features/F{num}-{slug}/README.md` o ejecutas `$docu` para proponer y materializar los README aprobados.
 2. Ejecutas `$feat F{num}` para que el Orchestrator analice, estime y planifique esa fuente de producto (genera las carpetas de fase y sus tareas).
-3. Ejecutas `$task F{num}-P{fase}` para implementar una fase concreta (con su revisión y pruebas). El código se escribe en `repositories/<repo-name>/`, no en `features/`.
+3. Ejecutas `$task F{num}-P{fase}` para implementar una fase concreta, o `$task F{num}` para implementar todas las fases planificadas de esa feature (con revisión y pruebas). El código se escribe en `repositories/<repo-name>/`, no en `features/`.
 
 ## Uso rápido (atajos)
 
@@ -36,6 +36,7 @@ Cada fase es una **carpeta** `P{fase}-{slug}/`; cada tarea es un **archivo** `T{
 | `$docu` | Analiza `docs/**` y `features/**`, presenta un catálogo y cambios propuestos, espera aprobación explícita y materializa únicamente los `features/F*/README.md` aprobados. **No genera fases ni tareas.** |
 | `$feat F{num}` | Localiza `features/F{num}-{slug}/README.md` (fuente de producto manual o generada por `$docu`), analiza alcance/criterios/riesgos, estima y genera las carpetas `features/F{num}-{slug}/P{fase}-{slug}/` con sus tareas. **No implementa código. Nunca toca README.md.** |
 | `$task F{num}-P{fase}` | Implementa todas las tareas de esa carpeta de fase (`P{fase}-{slug}/T*.md`), incluyendo su revisión y pruebas. |
+| `$task F{num}` | Implementa todas las fases planificadas de la feature (`P*/T*.md`), por orden salvo que el plan permita paralelizar fases independientes. |
 | `implementa esta feature` | Ejecuta el workflow completo de punta a punta: intake → análisis → estimación → planificación → routing → implementación → revisión → pruebas → entrega. |
 
 ### Ejemplo completo
@@ -54,16 +55,19 @@ $task F01-P01
 
 # 4. Cuando esté lista la fase, implementas la siguiente
 $task F01-P02
+
+# Variante: implementas todas las fases planificadas de la feature
+$task F01
 ```
 
 ## Flujo principal
 
 1. `$feat F{num}` → brief interno + carpetas de fase con tareas en `features/F{num}-{slug}/`, sin código.
-2. `$task F{num}-P{fase}` → implementación de todas las tareas de esa fase, en `repositories/<repo-name>/`.
+2. `$task F{num}-P{fase}` → implementación de todas las tareas de esa fase, en `repositories/<repo-name>/`; `$task F{num}` aplica el mismo ciclo a todas las fases planificadas de la feature.
 3. Revisión de código + pruebas unitarias, e2e y QA.
 4. Cierre con resumen de entrega (`templates/delivery-summary.md`).
 
-La resolución del selector `F{num}-P{fase}` (y, opcionalmente, `F{num}-P{fase}-T{tarea}` para una tarea concreta) la realiza [`scripts/resolve-feature-tasks.sh`](./scripts/resolve-feature-tasks.sh).
+La resolución del selector `F{num}` para toda la feature, `F{num}-P{fase}` para una fase, y `F{num}-P{fase}-T{tarea}` para una tarea concreta la realiza [`scripts/resolve-feature-tasks.sh`](./scripts/resolve-feature-tasks.sh).
 
 ## Worktrees
 

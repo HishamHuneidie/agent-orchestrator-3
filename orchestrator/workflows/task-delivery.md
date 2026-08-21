@@ -1,6 +1,6 @@
 # Workflow: task-delivery
 
-Workflow del atajo `$task F{num}-P{fase}[-T{tarea}]`. Retoma una feature ya planificada (`feature-planning.md` completado) y ejecuta `routing -> implementation -> review -> test -> delivery` para las tareas resueltas por el selector. Disparado por `skills/task-delivery-shortcut/SKILL.md`.
+Workflow del atajo `$task F{num}[-P{fase}[-T{tarea}]]`. Retoma una feature ya planificada (`feature-planning.md` completado) y ejecuta `routing -> implementation -> review -> test -> delivery` para las tareas resueltas por el selector. Con `$task F{num}` recorre todas las fases planificadas de la feature. Disparado por `skills/task-delivery-shortcut/SKILL.md`.
 
 ## Nodos
 
@@ -18,15 +18,16 @@ Igual que `application-feature.md`. Adicionalmente, cada tarea individual dentro
 
 ## Reglas de transición
 
-1. `routing` resuelve el selector (`scripts/resolve-feature-tasks.sh`) a un conjunto concreto de tareas antes de avanzar. Si el selector no resuelve a ninguna tarea, el workflow pasa a `cancelled` inmediatamente y se informa al usuario.
+1. `routing` resuelve el selector (`scripts/resolve-feature-tasks.sh`) a un conjunto concreto de tareas antes de avanzar. Si el selector es `F{num}`, resuelve todas las fases `P*` de la feature en orden numérico por defecto. Si el selector no resuelve a ninguna tarea, el workflow pasa a `cancelled` inmediatamente y se informa al usuario.
 2. `implementation` avanza tarea por tarea (o en paralelo si están marcadas como paralelizables y sin dependencias cruzadas).
 3. `review` y `test` se ejecutan por tarea o por fase completa, según lo que el selector haya resuelto.
-4. `delivery` solo se dispara automáticamente si el selector fue una fase completa (`F{num}-P{fase}`) y todas sus tareas están `completed` tras `review`/`test`. Si el selector fue una tarea individual (`F{num}-P{fase}-T{tarea}`), el workflow termina en `completed` tras `test`, sin generar resumen de entrega de fase.
+4. `delivery` se dispara automáticamente por cada fase completa resuelta (`F{num}` o `F{num}-P{fase}`) cuando todas sus tareas están `completed` tras `review`/`test`. Si el selector fue una tarea individual (`F{num}-P{fase}-T{tarea}`), el workflow termina en `completed` tras `test`, sin generar resumen de entrega de fase.
 
 ## Paralelismo
 
 - Hasta `parallelism.max_parallel_implementers` tareas de `implementation` simultáneas, cada una en su worktree si corresponde (`skills/parallel-worktrees/SKILL.md`).
 - Hasta `parallelism.max_parallel_reviewers` revisiones simultáneas.
+- Con `$task F{num}`, las fases se ejecutan secuencialmente por defecto. Solo pueden paralelizarse fases independientes si el plan no declara dependencias cruzadas y se respetan los límites anteriores.
 
 ## Persistencia de estado
 

@@ -5,13 +5,13 @@
 1. En la **raíz del monorepo** (no dentro de `orchestrator/`), crea manualmente `features/F{num}-{slug}/README.md` o genera/actualiza ese archivo con `$docu` tras aprobación explícita. Debe contener alcance, criterios de aceptación, restricciones, riesgos y fuera de alcance. Para `$feat`, `$task` y los agentes de implementación, este archivo siempre es de solo lectura.
 2. En tu cliente de IA (con `AGENTS.md` cargado), escribe: `$feat F{num}` (p. ej. `$feat F01`).
 3. Revisa las carpetas de fase generadas en `features/F{num}-{slug}/P{fase}-{slug}/` y sus tareas (`T*.md`) antes de implementar nada.
-4. Cuando el plan esté aprobado, escribe: `$task F{num}-P{fase}` (p. ej. `$task F01-P01`) para desarrollar esa fase completa (implementación + revisión + pruebas). El código se escribe en `repositories/<repo-name>/`.
+4. Cuando el plan esté aprobado, escribe: `$task F{num}-P{fase}` (p. ej. `$task F01-P01`) para desarrollar esa fase completa (implementación + revisión + pruebas), o `$task F{num}` (p. ej. `$task F01`) para desarrollar todas las fases planificadas de la feature. El código se escribe en `repositories/<repo-name>/`.
 5. Al terminar cada fase, revisa `orchestrator/reports/F{num}-{slug}/P{fase}-delivery-summary.md`.
-6. Repite el paso 4 con la siguiente fase (`$task F01-P02`, ...) hasta completar todas las fases del plan.
+6. Si estás ejecutando fase por fase, repite el paso 4 con la siguiente fase (`$task F01-P02`, ...) hasta completar todas las fases del plan.
 
 ## Reanudar una feature interrumpida
 
-El estado vive en `runtime/state/<feature-id>.yaml`. Simplemente vuelve a invocar `$task F{num}-P{fase}` (la misma fase en la que quedó); el workflow retoma desde el primer nodo no `completed`. Usa `./orchestrator status <feature-id>` para inspeccionar el estado actual sin modificarlo.
+El estado vive en `runtime/state/<feature-id>.yaml`. Simplemente vuelve a invocar `$task F{num}-P{fase}` (la misma fase en la que quedó) o `$task F{num}` si estabas ejecutando la feature completa; el workflow retoma desde el primer nodo no `completed`. Usa `./orchestrator status <feature-id>` para inspeccionar el estado actual sin modificarlo.
 
 ## Trabajar en paralelo
 
